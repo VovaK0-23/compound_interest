@@ -29,24 +29,24 @@ end
 
 language = prompt.select('Choose language?', %w[English Russian])
 I18n.locale = :ru if language == 'Russian'
-p(I18n.t(:lang))
+puts(I18n.t(:lang))
 
-p(I18n.t(:init_payment))
+puts(I18n.t(:init_payment))
 initial_payment = gets.chomp.to_f
-p(I18n.t(:term))
+puts(I18n.t(:term))
 term = gets.chomp.to_f
 term_month_or_year = prompt.select(I18n.t(:months_or_years), [I18n.t(:months), I18n.t(:years)])
-p(I18n.t(:nominal_rate))
+puts(I18n.t(:nominal_rate))
 interest_rate = gets.chomp.to_f / 100.0
 capitalization_periodicity = prompt.select(I18n.t(:capitalization_periodicity),
                                            [I18n.t(:day), I18n.t(:week),
                                              I18n.t(:month), I18n.t(:year)])
 capitalization_periodicity = periodicity(capitalization_periodicity)
-term = 12 if term_month_or_year == I18n.t(:months)
+term = term / 12 if term_month_or_year == I18n.t(:months)
 
 result = initial_payment * (1.0 + interest_rate / capitalization_periodicity) **
   (term * capitalization_periodicity)
-p(I18n.t(:payment))
+puts(I18n.t(:payment))
 payment = gets.chomp.to_f
 if payment > 0
   payment_periodicity = prompt.select(I18n.t(:payment_periodicity),
@@ -63,4 +63,4 @@ if payment > 0
   end
   result = result + arr.sum - payment
 end
-p(result.round(3))
+puts(result.round(3))
