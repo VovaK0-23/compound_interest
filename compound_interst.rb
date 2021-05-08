@@ -27,6 +27,12 @@ def periodicity(period)
   end
 end
 
+def select_periodicity(periodicity)
+  prompt.select(periodicity),
+    [I18n.t(:day), I18n.t(:week),
+      I18n.t(:month), I18n.t(:year)])
+end
+
 language = prompt.select('Choose language?', %w[English Russian])
 I18n.locale = :ru if language == 'Russian'
 puts(I18n.t(:lang))
@@ -35,30 +41,27 @@ puts(I18n.t(:init_payment))
 initial_payment = gets.chomp.to_f
 puts(I18n.t(:term))
 term = gets.chomp.to_f
-term_month_or_year = prompt.select(I18n.t(:months_or_years), [I18n.t(:months), I18n.t(:years)])
+term_month_or_year = prompt.select(I18n.t(:months_or_years),
+  [I18n.t(:months), I18n.t(:years)])
 puts(I18n.t(:nominal_rate))
 interest_rate = gets.chomp.to_f / 100.0
-capitalization_periodicity = prompt.select(I18n.t(:capitalization_periodicity),
-                                           [I18n.t(:day), I18n.t(:week),
-                                             I18n.t(:month), I18n.t(:year)])
+capitalization_periodicity = select_periodicity(I18n.t(:capitalization_periodicity))
 capitalization_periodicity = periodicity(capitalization_periodicity)
-term = term / 12 if term_month_or_year == I18n.t(:months)
+term /= 12 if term_month_or_year == I18n.t(:months)
 
-result = initial_payment * (1.0 + interest_rate / capitalization_periodicity) **
-  (term * capitalization_periodicity)
+calculation = (1.0 + interest_rate / capitalization_periodicity)**(term * capitalization_periodicity)
+result = initial_payment * calculation
+
 puts(I18n.t(:payment))
 payment = gets.chomp.to_f
 if payment > 0
-  payment_periodicity = prompt.select(I18n.t(:payment_periodicity),
-                                      [I18n.t(:day), I18n.t(:week),
-                                        I18n.t(:month), I18n.t(:year)])
+  payment_periodicity = select_periodicity(I18n.t(:payment_periodicity))
   payment_periodicity = periodicity(payment_periodicity)
   arr = []
   times = (payment_periodicity * term).to_i
   (1..times).each do |i|
-    sum_one_payment = payment * (1.0 + interest_rate / capitalization_periodicity) **
-      ((term * capitalization_periodicity) -
-       ((capitalization_periodicity / payment_periodicity) * i))
+    sum_one_payment = payment * calculation -
+      ((capitalization_periodicity / payment_periodicity) * i))
     arr << sum_one_payment
   end
   result = result + arr.sum - payment
