@@ -11,5 +11,5 @@ ru:
   years:                      "Лет"
   nominal_rate:               "Номинальная процентная ставка"
   capitalization_periodicity: "Проценты выплачиваются каждый:"
-  payment:                    "Переодический взнос"
+  payment:                    "Переодический взнос:"
   payment_periodicity:        "Взнос осуществляется каждый:"

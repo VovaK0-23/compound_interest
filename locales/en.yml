@@ -11,5 +11,5 @@ en:
   years:                      "Years"
   nominal_rate:               "Nominal interest rate"
   capitalization_periodicity: "Interest paid every:"
-  payment:                    "Payment"
+  payment:                    "Payment:"
   payment_periodicity:        "Periodicity of payments"
