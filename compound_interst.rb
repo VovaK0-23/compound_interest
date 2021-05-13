@@ -69,5 +69,5 @@ hh = {
   payment: payment,
   payment_periodicity: payment_periodicity
 }
-puts(compound_interest.calculate(hh))
+puts(compound_interest.calculate(hh).round(3))
 
